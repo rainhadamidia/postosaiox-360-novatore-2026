@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Postos 360° — Novatores 2026</title>
+  <meta name="description" content="Transformando postos de combustível em negócios digitais inteligentes. Projeto submetido ao Programa Novatores 2026 - UEFS." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d1a;
+      color: #e8e8f0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== TOKENS ===== */
+    :root {
+      --blue:   #0066CC;
+      --blue-l: #1a88ff;
+      --green:  #00CC66;
+      --green-l:#00ff80;
+      --orange: #FF6600;
+      --dark:   #0d0d1a;
+      --dark2:  #13132b;
+      --dark3:  #1a1a3e;
+      --card:   rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.08);
+      --text:   #e8e8f0;
+      --muted:  #8888aa;
+      --radius: 16px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    /* ===== UTILITIES ===== */
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .section { padding: 80px 0; }
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      margin-bottom: 52px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--blue-l), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,215,0,0.12);
+      border: 1px solid rgba(255,215,0,0.3);
+      color: #ffd700;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.02em;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--blue-l));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0,102,204,0.4);
+    }
+    .btn-primary:hover { box-shadow: 0 8px 28px rgba(0,102,204,0.6); }
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), var(--green-l));
+      color: #0d0d1a;
+      box-shadow: 0 4px 20px rgba(0,204,102,0.4);
+    }
+    .btn-green:hover { box-shadow: 0 8px 28px rgba(0,204,102,0.6); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,204,102,0.3);
+      box-shadow: 0 12px 40px rgba(0,204,102,0.08);
+    }
+
+    /* ===== REVEAL ANIMATIONS ===== */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(13,13,26,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue-l), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: #fff; background: var(--card); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: #fff !important;
+      padding: 8px 18px !important;
+      border-radius: 100px !important;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(13,13,26,0.97);
+      border-bottom: 1px solid var(--border);
+      padding: 20px;
+      z-index: 999;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+    .mobile-menu a:hover { background: var(--card); }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 20% 50%, rgba(0,102,204,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(0,204,102,0.1) 0%, transparent 55%),
+                  var(--dark);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-badge-wrap { margin-bottom: 20px; }
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 44px;
+      flex-wrap: wrap;
+    }
+    .hero-stat-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue-l), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dashboard-mock {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,204,102,0.1);
+      position: relative;
+    }
+    .mock-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mock-title-bar {
+      flex: 1;
+      background: var(--dark3);
+      height: 10px;
+      border-radius: 5px;
+    }
+    .mock-kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+    .mock-kpi {
+      background: var(--dark3);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+    .mock-kpi-val { font-size: 1rem; font-weight: 700; color: var(--green); }
+    .mock-kpi-label { font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
+    .mock-kpi-delta { font-size: 0.65rem; color: #00ff80; }
+    .mock-chart-wrap { background: var(--dark3); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+    .mock-chart-title { font-size: 0.7rem; color: var(--muted); margin-bottom: 10px; }
+    .mock-bars { display: flex; align-items: flex-end; gap: 6px; height: 60px; }
+    .mock-bar {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(to top, var(--blue), var(--green));
+      transition: height 0.4s ease;
+    }
+    .mock-alerts { display: flex; flex-direction: column; gap: 8px; }
+    .mock-alert {
+      background: var(--dark3);
+      border-left: 3px solid var(--orange);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mock-alert-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+    .floating-chip {
+      position: absolute;
+      background: linear-gradient(135deg, var(--blue), var(--blue-l));
+      border-radius: 100px;
+      padding: 8px 14px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0,102,204,0.5);
+      white-space: nowrap;
+      animation: float 3s ease-in-out infinite;
+    }
+    .chip-1 { top: -16px; right: 20px; animation-delay: 0s; }
+    .chip-2 { bottom: -14px; left: 10px; animation-delay: 1.5s; background: linear-gradient(135deg, var(--green), var(--green-l)); color: #0d0d1a; box-shadow: 0 4px 20px rgba(0,204,102,0.5); }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    /* ===== PROBLEM ===== */
+    #problem { background: var(--dark2); }
+    .problem-stat {
+      background: linear-gradient(135deg, rgba(0,102,204,0.1), rgba(0,204,102,0.1));
+      border: 1px solid rgba(0,204,102,0.2);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .problem-stat-text {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .problem-stat-sep { color: var(--border); font-size: 1.5rem; }
+    .problem-num { color: var(--green); font-weight: 800; }
+    .problem-card-icon { font-size: 2rem; margin-bottom: 12px; }
+    .problem-card-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
+    .problem-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .problem-card ul li { font-size: 0.85rem; color: var(--muted); padding-left: 16px; position: relative; }
+    .problem-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--orange); }
+
+    /* ===== SOLUTION ===== */
+    #solution { background: var(--dark); }
+    .solution-card { position: relative; overflow: hidden; }
+    .solution-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      border-radius: 3px 3px 0 0;
+    }
+    .solution-icon { font-size: 2.4rem; margin-bottom: 14px; }
+    .solution-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .solution-pill {
+      display: inline-block;
+      background: rgba(0,204,102,0.1);
+      border: 1px solid rgba(0,204,102,0.2);
+      color: var(--green);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+    .solution-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .solution-list li { font-size: 0.83rem; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+    .solution-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* ===== RADAR ===== */
+    #radar { background: var(--dark2); }
+    .radar-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .radar-svg-wrap {
+      display: flex;
+      justify-content: center;
+    }
+    #radarCanvas {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+    }
+    .radar-legend { display: flex; flex-direction: column; gap: 12px; }
+    .radar-legend-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .radar-dim {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .radar-dim:hover { border-color: var(--blue-l); transform: translateX(4px); }
+    .radar-dim.active { border-color: var(--green); }
+    .radar-dim-score {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .score-red { background: rgba(255,60,60,0.15); color: #ff5555; border: 1px solid rgba(255,60,60,0.3); }
+    .score-yellow { background: rgba(255,200,0,0.15); color: #ffc800; border: 1px solid rgba(255,200,0,0.3); }
+    .score-green { background: rgba(0,204,102,0.15); color: var(--green); border: 1px solid rgba(0,204,102,0.3); }
+    .radar-dim-info { flex: 1; }
+    .radar-dim-name { font-size: 0.78rem; font-weight: 600; color: #fff; }
+    .radar-dim-bar-wrap { background: rgba(255,255,255,0.08); border-radius: 4px; height: 4px; margin-top: 4px; overflow: hidden; }
+    .radar-dim-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+    .radar-legend-status {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--card);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--muted); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .radar-cta { margin-top: 20px; }
+
+    /* ===== MOCKUPS ===== */
+    #mockups { background: var(--dark); }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      border-color: transparent;
+      color: #fff;
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+    .mockup-frame {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mockup-header-title { font-size: 1rem; font-weight: 700; }
+    .mockup-date { font-size: 0.72rem; color: var(--muted); }
+    .mockup-kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+    .mkpi {
+      background: var(--dark3);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .mkpi-val { font-size: 1.1rem; font-weight: 800; color: var(--green); }
+    .mkpi-label { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+    .mkpi-delta { font-size: 0.7rem; color: #00ff80; margin-top: 2px; }
+    .mockup-chart-area { background: var(--dark3); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .mockup-chart-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 12px; }
+    .area-chart { width: 100%; height: 80px; }
+    .alert-list { display: flex; flex-direction: column; gap: 8px; }
+    .alert-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--dark3);
+      border-radius: 10px;
+      padding: 10px 14px;
+      border-left: 3px solid var(--orange);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .top-produtos { display: flex; flex-direction: column; gap: 6px; }
+    .top-prod-row { display: flex; align-items: center; gap: 8px; font-size: 0.76rem; }
+    .top-prod-name { flex: 1; color: var(--text); }
+    .top-prod-bar-wrap { width: 80px; background: rgba(255,255,255,0.06); border-radius: 4px; height: 6px; overflow: hidden; }
+    .top-prod-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--green)); }
+    .top-prod-val { font-weight: 600; color: var(--green); min-width: 48px; text-align: right; }
+    /* Frentista */
+    .frentista-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--dark3);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0,204,102,0.15);
+    }
+    .avatar-circle {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .frentista-name { font-size: 0.95rem; font-weight: 700; }
+    .frentista-level { font-size: 0.75rem; color: var(--green); }
+    .xp-bar-wrap { background: rgba(255,255,255,0.08); border-radius: 6px; height: 8px; margin-top: 6px; overflow: hidden; }
+    .xp-bar { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--blue), var(--green)); width: 83%; }
+    .xp-label { font-size: 0.65rem; color: var(--muted); margin-top: 4px; }
+    .desafio-card {
+      background: var(--dark3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,200,0,0.15);
+    }
+    .desafio-title { font-size: 0.78rem; font-weight: 600; color: #ffc800; margin-bottom: 6px; }
+    .desafio-text { font-size: 0.75rem; color: var(--muted); }
+    .desafio-progress { margin-top: 8px; }
+    .desafio-prog-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 4px; height: 6px; overflow: hidden; }
+    .desafio-prog-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #ffc800, #ff9900); width: 66%; }
+    .ranking-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--dark3);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 0.78rem;
+    }
+    .ranking-pos { font-weight: 700; font-size: 1rem; color: var(--blue-l); min-width: 20px; }
+    .ranking-name { flex: 1; color: var(--text); }
+    .ranking-pts { color: var(--green); font-weight: 600; }
+    .badges-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .badge-chip {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    /* Cliente */
+    .cashback-card {
+      background: linear-gradient(135deg, rgba(0,102,204,0.2), rgba(0,204,102,0.1));
+      border: 1px solid rgba(0,204,102,0.2);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .cashback-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+    .cashback-val { font-size: 2rem; font-weight: 800; color: var(--green); }
+    .cashback-sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .missao-card {
+      background: var(--dark3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(0,102,204,0.2);
+    }
+    .missao-title { font-size: 0.75rem; font-weight: 600; color: var(--blue-l); margin-bottom: 4px; }
+    .missao-text { font-size: 0.78rem; color: var(--muted); }
+    .voucher-card {
+      background: linear-gradient(90deg, rgba(255,102,0,0.12), rgba(255,150,0,0.08));
+      border: 1px dashed rgba(255,102,0,0.3);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.78rem;
+      margin-bottom: 12px;
+    }
+    .voucher-icon { font-size: 1.4rem; }
+    .voucher-val { font-weight: 700; color: var(--orange); font-size: 1rem; }
+    .historico-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.76rem; }
+    .hist-data { color: var(--muted); min-width: 60px; }
+    .hist-val { margin-left: auto; font-weight: 600; color: var(--text); }
+
+    /* ===== IMPACT ===== */
+    #impact { background: var(--dark2); }
+    .impact-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-bottom: 52px; }
+    .impact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .impact-card:hover { transform: translateY(-6px); border-color: rgba(0,204,102,0.3); }
+    .impact-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+    }
+    .impact-icon { font-size: 2rem; margin-bottom: 12px; }
+    .impact-num { font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, var(--blue-l), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .impact-title { font-size: 0.85rem; font-weight: 700; color: #fff; margin: 6px 0; }
+    .impact-desc { font-size: 0.75rem; color: var(--muted); }
+    .testimonial {
+      background: linear-gradient(135deg, rgba(0,102,204,0.08), rgba(0,204,102,0.05));
+      border: 1px solid rgba(0,204,102,0.15);
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .testimonial-quote { font-size: clamp(1rem, 2vw, 1.15rem); color: var(--text); font-style: italic; line-height: 1.7; margin-bottom: 24px; }
+    .testimonial-author { display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .testimonial-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .testimonial-name { font-weight: 700; font-size: 0.9rem; text-align: left; }
+    .testimonial-role { font-size: 0.75rem; color: var(--muted); text-align: left; }
+
+    /* ===== DIFERENCIAIS ===== */
+    #diferenciais { background: var(--dark); }
+    .comp-table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+    .comp-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+    .comp-table th, .comp-table td { padding: 14px 20px; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+    .comp-table th { background: var(--dark3); font-weight: 700; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .comp-table td:first-child { color: var(--muted); font-size: 0.82rem; }
+    .comp-table td:nth-child(2) { color: var(--muted); font-size: 0.82rem; text-align: center; }
+    .comp-table td:nth-child(3) { text-align: center; font-weight: 600; }
+    .comp-table tr:last-child td { border-bottom: none; }
+    .comp-table th:nth-child(3) { color: var(--green); }
+    .check { color: var(--green); }
+    .cross { color: #ff5555; }
+    .highlight-row td:nth-child(3) { color: var(--green-l) !important; }
+    .comp-destaque {
+      background: linear-gradient(135deg, rgba(0,204,102,0.08), rgba(0,102,204,0.05));
+      border: 1px solid rgba(0,204,102,0.2);
+      border-radius: 12px;
+      padding: 18px 24px;
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.95rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ===== MERCADO ===== */
+    #mercado { background: var(--dark2); }
+    .market-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .tam-visual { position: relative; width: 300px; height: 300px; margin: 0 auto; }
+    .tam-circle {
+      position: absolute;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    .tam-1 { width: 300px; height: 300px; background: rgba(0,102,204,0.1); border: 2px solid rgba(0,102,204,0.3); }
+    .tam-2 { width: 210px; height: 210px; background: rgba(0,204,102,0.1); border: 2px solid rgba(0,204,102,0.3); }
+    .tam-3 { width: 130px; height: 130px; background: rgba(255,102,0,0.12); border: 2px solid rgba(255,102,0,0.4); }
+    .tam-label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .tam-val { font-size: 0.85rem; font-weight: 700; color: #fff; }
+    .tam-sub { font-size: 0.6rem; color: var(--muted); }
+    .projection-table { width: 100%; }
+    .proj-header { display: grid; grid-template-columns: 60px 80px 1fr 1fr; gap: 8px; padding: 0 0 10px; border-bottom: 1px solid var(--border); font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .proj-row { display: grid; grid-template-columns: 60px 80px 1fr 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.82rem; align-items: center; transition: background 0.2s; }
+    .proj-row:hover { background: rgba(255,255,255,0.02); }
+    .proj-row:last-child { border-bottom: none; }
+    .proj-ano { font-weight: 700; color: var(--green); }
+    .proj-postos { color: var(--text); }
+    .proj-arr { color: var(--blue-l); font-weight: 600; }
+    .proj-val { color: var(--orange); font-weight: 600; }
+    .proj-bar { height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--green)); margin-top: 6px; }
+
+    /* ===== ROADMAP ===== */
+    #roadmap { background: var(--dark); }
+    .roadmap-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+    .rm-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .rm-card:hover { transform: translateY(-4px); border-color: rgba(0,102,204,0.3); }
+    .rm-phase {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+    }
+    .rm-card-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .rm-period { font-size: 0.72rem; color: var(--muted); margin-bottom: 16px; }
+    .rm-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .rm-items li { font-size: 0.78rem; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+    .rm-items li span { color: var(--text); }
+    .rm-meta { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--green); font-weight: 600; }
+    .rm-connector {
+      position: absolute;
+      right: -10px; top: 50%;
+      transform: translateY(-50%);
+      width: 20px; height: 20px;
+      background: var(--dark);
+      border: 2px solid var(--blue);
+      border-radius: 50%;
+      z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.5rem; color: var(--blue);
+    }
+
+    /* ===== INVESTIMENTO ===== */
+    #investimento { background: var(--dark2); }
+    .inv-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .inv-amount {
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .inv-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .inv-val { font-size: 2.4rem; font-weight: 900; background: linear-gradient(135deg, var(--blue-l), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .inv-type { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+    .pie-chart-wrap { position: relative; width: 200px; height: 200px; margin: 0 auto 24px; }
+    .pie-legend { display: flex; flex-direction: column; gap: 10px; }
+    .pie-legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
+    .pie-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+    .pie-leg-label { flex: 1; color: var(--muted); }
+    .pie-leg-pct { font-weight: 700; color: #fff; }
+    .milestones { display: flex; flex-direction: column; gap: 14px; }
+    .milestone-row { display: flex; gap: 14px; align-items: flex-start; }
+    .milestone-dot {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .milestone-line { flex: 1; }
+    .milestone-mes { font-size: 0.7rem; color: var(--muted); }
+    .milestone-desc { font-size: 0.85rem; font-weight: 600; color: #fff; }
+
+    /* ===== TIME ===== */
+    #time { background: var(--dark); }
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      gap: 20px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .team-card:hover { border-color: rgba(0,204,102,0.3); transform: translateY(-4px); }
+    .team-avatar {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .team-name { font-size: 1rem; font-weight: 700; color: #fff; }
+    .team-role { font-size: 0.78rem; color: var(--green); margin-bottom: 8px; }
+    .team-bio { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .team-links { display: flex; gap: 8px; margin-top: 10px; }
+    .team-link {
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .team-link:hover { color: var(--green); border-color: var(--green); }
+    .parceiros-title { font-size: 1rem; font-weight: 700; text-align: center; margin-bottom: 20px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.78rem; }
+    .parceiros-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .parceiro-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .parceiro-card:hover { border-color: rgba(0,102,204,0.3); }
+    .parceiro-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .parceiro-name { font-size: 0.75rem; font-weight: 600; color: #fff; }
+    .parceiro-role { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+
+    /* ===== CTA FINAL ===== */
+    #cta-final {
+      background: linear-gradient(135deg, #061a3a 0%, #0a2e1a 50%, #061a3a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    #cta-final::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0,204,102,0.08) 0%, transparent 70%);
+    }
+    .cta-inner { position: relative; z-index: 1; text-align: center; max-width: 720px; margin: 0 auto; }
+    .cta-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; line-height: 1.15; margin-bottom: 20px; }
+    .cta-sub { font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--muted); margin-bottom: 40px; }
+    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+    .cta-seals { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .seal {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #070710;
+      border-top: 1px solid var(--border);
+      padding: 48px 20px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      text-align: center;
+    }
+    .footer-logo { font-size: 1.6rem; font-weight: 900; background: linear-gradient(135deg, var(--blue-l), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .footer-contacts { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .footer-contact { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--muted); transition: color 0.2s; }
+    .footer-contact:hover { color: var(--green); }
+    .footer-divider { width: 100%; height: 1px; background: var(--border); }
+    .footer-copy { font-size: 0.75rem; color: var(--muted); }
+
+    /* ===== MOBILE RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2,1fr); }
+      .impact-cards { grid-template-columns: repeat(2,1fr); }
+      .roadmap-grid { grid-template-columns: repeat(2,1fr); }
+      .parceiros-grid { grid-template-columns: repeat(2,1fr); }
+      .radar-wrap { grid-template-columns: 1fr; }
+      .market-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .inv-wrap { grid-template-columns: 1fr; }
+      .rm-connector { display: none; }
+    }
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { order: -1; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .section { padding: 60px 0; }
+      .team-grid { grid-template-columns: 1fr; }
+      .mockup-kpis { grid-template-columns: repeat(3,1fr); }
+      .hero-stats { gap: 20px; }
+      .proj-header, .proj-row { grid-template-columns: 50px 70px 1fr 1fr; font-size: 0.75rem; }
+    }
+    @media (max-width: 640px) {
+      .impact-cards { grid-template-columns: 1fr 1fr; }
+      .roadmap-grid { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; }
+      .cta-btns { flex-direction: column; align-items: center; }
+      .mockup-kpis { grid-template-columns: repeat(2,1fr); }
+      .parceiros-grid { grid-template-columns: repeat(2,1fr); }
+      .tam-visual { width: 260px; height: 260px; }
+      .tam-1 { width: 260px; height: 260px; }
+      .tam-2 { width: 180px; height: 180px; }
+      .tam-3 { width: 110px; height: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">⛽ Postos 360°</div>
+    <ul class="nav-links">
+      <li><a href="#problem">Problema</a></li>
+      <li><a href="#solution">Solução</a></li>
+      <li><a href="#radar">Radar</a></li>
+      <li><a href="#impact">Impacto</a></li>
+      <li><a href="#mercado">Mercado</a></li>
+      <li><a href="#time">Time</a></li>
+      <li><a href="#cta-final" class="nav-cta">Contato</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#problem" onclick="closeMenu()">Problema</a>
+  <a href="#solution" onclick="closeMenu()">Solução</a>
+  <a href="#radar" onclick="closeMenu()">Radar 360°</a>
+  <a href="#mockups" onclick="closeMenu()">Interfaces</a>
+  <a href="#impact" onclick="closeMenu()">Impacto</a>
+  <a href="#mercado" onclick="closeMenu()">Mercado</a>
+  <a href="#roadmap" onclick="closeMenu()">Roadmap</a>
+  <a href="#time" onclick="closeMenu()">Time</a>
+  <a href="#cta-final" onclick="closeMenu()">Contato</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="reveal">
+        <div class="hero-badge-wrap">
+          <span class="badge">🏆 Projeto submetido ao NOVATORE 2026</span>
+        </div>
+        <h1 class="hero-title">
+          Transformando Postos em<br />
+          <span class="gradient-text">Negócios Digitais<br />Inteligentes</span>
+        </h1>
+        <p class="hero-sub">
+          A primeira plataforma 360° com IA, automação e gamificação para postos de combustível. 43.000 postos no Brasil — menos de 5% digitalizados.
+        </p>
+        <div class="hero-btns">
+          <a href="#solution" class="btn btn-primary">🚀 Conhecer a Solução</a>
+          <a href="#impact" class="btn btn-secondary">📈 Ver o Impacto</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num" data-target="43000" data-suffix="k">43k</div>
+            <div class="hero-stat-label">Postos no Brasil</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">R$650bi</div>
+            <div class="hero-stat-label">Mercado/ano</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">5%</div>
+            <div class="hero-stat-label">Digitalizados</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" style="transition-delay:0.2s">
+        <div style="position:relative; width:100%; max-width:420px;">
+          <div class="floating-chip chip-1">📊 +30% Eficiência</div>
+          <div class="dashboard-mock">
+            <div class="mock-topbar">
+              <div class="mock-dot" style="background:#ff5f57"></div>
+              <div class="mock-dot" style="background:#febc2e"></div>
+              <div class="mock-dot" style="background:#28c840"></div>
+              <div class="mock-title-bar"></div>
+            </div>
+            <div class="mock-kpis">
+              <div class="mock-kpi">
+                <div class="mock-kpi-val">R$287</div>
+                <div class="mock-kpi-label">Ticket Médio</div>
+                <div class="mock-kpi-delta">↑ 12%</div>
+              </div>
+              <div class="mock-kpi">
+                <div class="mock-kpi-val">45%</div>
+                <div class="mock-kpi-label">Conversão</div>
+                <div class="mock-kpi-delta">↑ 8%</div>
+              </div>
+              <div class="mock-kpi">
+                <div class="mock-kpi-val">4.7★</div>
+                <div class="mock-kpi-label">Satisfação</div>
+                <div class="mock-kpi-delta">↑ 0.3</div>
+              </div>
+            </div>
+            <div class="mock-chart-wrap">
+              <div class="mock-chart-title">Vendas — Hoje</div>
+              <div class="mock-bars" id="heroBars">
+                <div class="mock-bar" style="height:35%"></div>
+                <div class="mock-bar" style="height:55%"></div>
+                <div class="mock-bar" style="height:40%"></div>
+                <div class="mock-bar" style="height:70%"></div>
+                <div class="mock-bar" style="height:60%"></div>
+                <div class="mock-bar" style="height:85%"></div>
+                <div class="mock-bar" style="height:75%"></div>
+                <div class="mock-bar" style="height:90%"></div>
+                <div class="mock-bar" style="height:65%"></div>
+                <div class="mock-bar" style="height:80%"></div>
+              </div>
+            </div>
+            <div class="mock-alerts">
+              <div class="mock-alert"><div class="mock-alert-dot"></div>⚠️ Estoque diesel abaixo do ideal</div>
+              <div class="mock-alert" style="border-color:var(--green)"><div class="mock-alert-dot" style="background:var(--green)"></div>✅ Meta diária atingida!</div>
+            </div>
+          </div>
+          <div class="floating-chip chip-2">💙 +25% Fidelização</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROBLEMA ===== -->
+<section id="problem" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Um Mercado de <span class="gradient-text">R$ 650 Bilhões...</span></h2>
+    <p class="section-sub reveal">Ainda analógico. Ineficiente. Esperando por transformação.</p>
+
+    <div class="problem-stat reveal">
+      <div class="problem-stat-text">
+        <span><span class="problem-num">43.000</span> postos no Brasil</span>
+        <span class="problem-stat-sep">|</span>
+        <span>Apenas <span class="problem-num">5%</span> digitalizados</span>
+        <span class="problem-stat-sep">|</span>
+        <span>Oportunidade: <span class="problem-num">R$ 3,2 bilhões/ano</span></span>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card problem-card reveal">
+        <div class="problem-card-icon">📊</div>
+        <div class="problem-card-title">Gestão Fragmentada</div>
+        <ul>
+          <li>78% dos postos usam planilhas Excel</li>
+          <li>Decisões baseadas em "feeling"</li>
+          <li>Reação tardia a problemas críticos</li>
+        </ul>
+      </div>
+      <div class="card problem-card reveal" style="transition-delay:0.1s">
+        <div class="problem-card-icon">💔</div>
+        <div class="problem-card-title">Baixa Fidelização</div>
+        <ul>
+          <li>Cliente abastece em 3-4 postos diferentes</li>
+          <li>Concorrência apenas por preço</li>
+          <li>Zero diferenciação de marca</li>
+        </ul>
+      </div>
+      <div class="card problem-card reveal" style="transition-delay:0.15s">
+        <div class="problem-card-icon">⚙️</div>
+        <div class="problem-card-title">Ineficiência Operacional</div>
+        <ul>
+          <li>40% do tempo em tarefas manuais</li>
+          <li>Alta rotatividade (60-80% ao ano)</li>
+          <li>Erros constantes de estoque</li>
+        </ul>
+      </div>
+      <div class="card problem-card reveal" style="transition-delay:0.2s">
+        <div class="problem-card-icon">💰</div>
+        <div class="problem-card-title">Margem Apertada</div>
+        <ul>
+          <li>Margem líquida: apenas 2-4%</li>
+          <li>Perdas anuais: R$ 50-200k/posto</li>
+          <li>Dificuldade em reinvestir e crescer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOLUÇÃO ===== -->
+<section id="solution" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Uma Plataforma, <span class="gradient-text">Todas as Soluções</span></h2>
+    <p class="section-sub reveal">Postos 360° não é um software — é uma revolução no setor de combustíveis brasileiro.</p>
+
+    <div class="grid-2 reveal">
+      <div class="card solution-card">
+        <div class="solution-icon">🎯</div>
+        <div class="solution-pill">Módulo 1</div>
+        <div class="solution-title">Radar 360° — Diagnóstico Inteligente</div>
+        <ul class="solution-list">
+          <li>Mapeamento de 8 dimensões do negócio</li>
+          <li>Score visual por área com gráfico radar</li>
+          <li>Roadmap priorizado de melhorias</li>
+          <li>Insights acionáveis via IA</li>
+        </ul>
+      </div>
+      <div class="card solution-card" style="transition-delay:0.1s">
+        <div class="solution-icon">🤖</div>
+        <div class="solution-pill">Módulo 2</div>
+        <div class="solution-title">Automação com IA</div>
+        <ul class="solution-list">
+          <li>Chatbot 24/7 para atendimento ao cliente</li>
+          <li>Automação de inventário e relatórios</li>
+          <li>Previsão de demanda inteligente</li>
+          <li>Alertas de anomalias e oportunidades</li>
+        </ul>
+      </div>
+      <div class="card solution-card" style="transition-delay:0.15s">
+        <div class="solution-icon">📊</div>
+        <div class="solution-pill">Módulo 3</div>
+        <div class="solution-title">Dashboard Analítico</div>
+        <ul class="solution-list">
+          <li>Métricas em tempo real</li>
+          <li>Comparativos de performance</li>
+          <li>Heatmaps de horários de pico</li>
+          <li>Relatórios automatizados</li>
+        </ul>
+      </div>
+      <div class="card solution-card" style="transition-delay:0.2s">
+        <div class="solution-icon">🎮</div>
+        <div class="solution-pill">Módulo 4</div>
+        <div class="solution-title">Gamificação 360°</div>
+        <ul class="solution-list">
+          <li>Sistema de níveis e badges para frentistas</li>
+          <li>Ranking de desempenho em tempo real</li>
+          <li>Programa de fidelidade para clientes</li>
+          <li>Recompensas e desafios diários</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RADAR ===== -->
+<section id="radar" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Veja Como Funciona o <span class="gradient-text">Diagnóstico</span></h2>
+    <p class="section-sub reveal">O Radar 360° mapeia 8 dimensões do seu posto e entrega um plano de ação priorizado.</p>
+
+    <div class="radar-wrap">
+      <div class="radar-svg-wrap reveal">
+        <svg id="radarCanvas" viewBox="0 0 440 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gráfico Radar 360 com 8 dimensões do posto"></svg>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.2s">
+        <div class="radar-legend">
+          <div class="radar-legend-title">Dimensões Avaliadas</div>
+          <div id="radarDims"></div>
+          <div class="radar-legend-status">
+            <div class="legend-item"><div class="legend-dot" style="background:#ff5555"></div>0–40: Crítico</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ffc800"></div>41–70: Atenção</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>71–100: Saudável</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MOCKUPS ===== -->
+<section id="mockups" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Interface Pensada para <span class="gradient-text">Quem Trabalha no Posto</span></h2>
+    <p class="section-sub reveal">Três experiências diferentes — todas integradas na mesma plataforma.</p>
+
+    <div class="tabs reveal">
+      <button class="tab-btn active" onclick="switchTab('gestor')">📊 Dashboard do Gestor</button>
+      <button class="tab-btn" onclick="switchTab('frentista')">🥷 App do Frentista</button>
+      <button class="tab-btn" onclick="switchTab('cliente')">💰 App do Cliente</button>
+    </div>
+
+    <!-- Tab Gestor -->
+    <div class="tab-pane active reveal" id="tab-gestor">
+      <div class="mockup-frame">
+        <div class="mockup-header">
+          <div class="mockup-header-title">📊 Painel do Gestor</div>
+          <div class="mockup-date">Hoje · 14:32</div>
+        </div>
+        <div class="mockup-kpis">
+          <div class="mkpi"><div class="mkpi-val">R$287</div><div class="mkpi-label">Ticket Médio</div><div class="mkpi-delta">↑ 12%</div></div>
+          <div class="mkpi"><div class="mkpi-val">45%</div><div class="mkpi-label">Conv. Loja</div><div class="mkpi-delta">↑ 8%</div></div>
+          <div class="mkpi"><div class="mkpi-val">4.7/5</div><div class="mkpi-label">Satisfação</div><div class="mkpi-delta">↑ 0.3</div></div>
+        </div>
+        <div class="mockup-chart-area">
+          <div class="mockup-chart-label">Vendas — Últimas 12h</div>
+          <svg class="area-chart" viewBox="0 0 640 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-label="Gráfico de área mostrando vendas nas últimas 12 horas">
+            <defs>
+              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0066CC" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#00CC66" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,70 L53,58 L106,64 L160,42 L213,50 L266,30 L320,38 L373,22 L426,28 L480,18 L533,24 L586,14 L640,10 L640,80 L0,80 Z" fill="url(#chartGrad)"/>
+            <path d="M0,70 L53,58 L106,64 L160,42 L213,50 L266,30 L320,38 L373,22 L426,28 L480,18 L533,24 L586,14 L640,10" fill="none" stroke="url(#lineGrad)" stroke-width="2"/>
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#0066CC"/><stop offset="100%" stop-color="#00CC66"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="alert-list" style="margin-bottom:16px">
+          <div class="alert-item">⚠️ Estoque diesel abaixo do ideal — 450L restantes</div>
+          <div class="alert-item" style="border-color:var(--green)">✅ Meta diária de R$18.500 atingida às 13h47!</div>
+        </div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Top 5 Produtos</div>
+        <div class="top-produtos">
+          <div class="top-prod-row"><div class="top-prod-name">Gasolina Aditivada</div><div class="top-prod-bar-wrap"><div class="top-prod-bar" style="width:92%"></div></div><div class="top-prod-val">R$8.2k</div></div>
+          <div class="top-prod-row"><div class="top-prod-name">Diesel S10</div><div class="top-prod-bar-wrap"><div class="top-prod-bar" style="width:74%"></div></div><div class="top-prod-val">R$6.6k</div></div>
+          <div class="top-prod-row"><div class="top-prod-name">Troca de Óleo</div><div class="top-prod-bar-wrap"><div class="top-prod-bar" style="width:45%"></div></div><div class="top-prod-val">R$2.1k</div></div>
+          <div class="top-prod-row"><div class="top-prod-name">Loja — Bebidas</div><div class="top-prod-bar-wrap"><div class="top-prod-bar" style="width:38%"></div></div><div class="top-prod-val">R$1.8k</div></div>
+          <div class="top-prod-row"><div class="top-prod-name">Lavagem Premium</div><div class="top-prod-bar-wrap"><div class="top-prod-bar" style="width:25%"></div></div><div class="top-prod-val">R$940</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Frentista -->
+    <div class="tab-pane" id="tab-frentista">
+      <div class="mockup-frame">
+        <div class="mockup-header">
+          <div class="mockup-header-title">🥷 App do Frentista</div>
+          <div class="mockup-date">Turno · 08h–16h</div>
+        </div>
+        <div class="frentista-profile">
+          <div class="avatar-circle">🥷</div>
+          <div style="flex:1">
+            <div class="frentista-name">Carlos Silva</div>
+            <div class="frentista-level">Nível 8 — Ninja das Vendas</div>
+            <div class="xp-bar-wrap"><div class="xp-bar"></div></div>
+            <div class="xp-label">1.250 / 1.500 XP para o próximo nível</div>
+          </div>
+        </div>
+        <div class="desafio-card">
+          <div class="desafio-title">🎯 Desafio do Dia</div>
+          <div class="desafio-text">Venda 3 combos de loja durante o abastecimento</div>
+          <div class="desafio-progress">
+            <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted);margin-bottom:4px"><span>Progresso</span><span>2/3 ✅</span></div>
+            <div class="desafio-prog-bar-wrap"><div class="desafio-prog-bar"></div></div>
+          </div>
+        </div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Ranking do Turno</div>
+        <div class="ranking-row"><div class="ranking-pos">🥇</div><div class="ranking-name">Ana Souza</div><div class="ranking-pts">1.480 pts</div></div>
+        <div class="ranking-row" style="border:1px solid rgba(0,204,102,0.2);border-radius:10px;margin-bottom:8px"><div class="ranking-pos">🥈</div><div class="ranking-name">Carlos Silva <span style="color:var(--green);font-size:0.65rem">(você)</span></div><div class="ranking-pts">1.250 pts</div></div>
+        <div class="ranking-row"><div class="ranking-pos">🥉</div><div class="ranking-name">José Lima</div><div class="ranking-pts">980 pts</div></div>
+        <div class="badges-row">
+          <div class="badge-chip">🔥 Semana em Chamas</div>
+          <div class="badge-chip">⭐ 5 Estrelas</div>
+          <div class="badge-chip">🚀 Primeiro Combo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Cliente -->
+    <div class="tab-pane" id="tab-cliente">
+      <div class="mockup-frame">
+        <div class="mockup-header">
+          <div class="mockup-header-title">💰 App do Cliente</div>
+          <div class="mockup-date">Bem-vindo, Maria!</div>
+        </div>
+        <div class="cashback-card">
+          <div class="cashback-label">Cashback Disponível</div>
+          <div class="cashback-val">R$ 47,50</div>
+          <div class="cashback-sub">Faltam R$ 52,50 para o próximo nível Ouro ⭐</div>
+        </div>
+        <div class="missao-card">
+          <div class="missao-title">🎯 Missão Ativa</div>
+          <div class="missao-text">Abasteça 1x esta semana → Ganhe 200 pontos bônus</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:0.72rem;color:var(--muted)">
+            <div style="background:rgba(255,255,255,0.06);border-radius:4px;height:6px;flex:1;overflow:hidden"><div style="height:100%;background:linear-gradient(90deg,var(--blue),var(--green));width:0%"></div></div>
+            0/1
+          </div>
+        </div>
+        <div class="voucher-card">
+          <div class="voucher-icon">🎫</div>
+          <div><div class="voucher-val">R$ 10 OFF</div><div style="font-size:0.7rem;color:var(--muted)">Em troca de óleo · Válido até 31/05</div></div>
+        </div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Histórico</div>
+        <div class="historico-row"><div class="hist-data">10/05</div><div style="color:var(--text);flex:1">Gasolina Aditivada · 40L</div><div class="hist-val">R$ 280</div></div>
+        <div class="historico-row"><div class="hist-data">03/05</div><div style="color:var(--text);flex:1">Diesel S10 · 30L</div><div class="hist-val">R$ 195</div></div>
+        <div class="historico-row" style="border:none"><div class="hist-data">28/04</div><div style="color:var(--text);flex:1">Gasolina + Troca óleo</div><div class="hist-val">R$ 410</div></div>
+        <div style="margin-top:16px"><a href="#cta-final" class="btn btn-green" style="width:100%;justify-content:center">📲 Pagar com QR Code</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== IMPACTO ===== -->
+<section id="impact" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Resultados Que <span class="gradient-text">Transformam o Negócio</span></h2>
+    <p class="section-sub reveal">Métricas reais de postos que implementaram a plataforma.</p>
+
+    <div class="impact-cards">
+      <div class="impact-card reveal">
+        <div class="impact-icon">📊</div>
+        <div class="impact-num">+30%</div>
+        <div class="impact-title">Eficiência Operacional</div>
+        <div class="impact-desc">Redução de 40% no tempo gasto em tarefas manuais</div>
+      </div>
+      <div class="impact-card reveal" style="transition-delay:0.1s">
+        <div class="impact-icon">💙</div>
+        <div class="impact-num">+25%</div>
+        <div class="impact-title">Fidelização de Clientes</div>
+        <div class="impact-desc">Clientes voltam 2x mais frequentemente ao posto</div>
+      </div>
+      <div class="impact-card reveal" style="transition-delay:0.15s">
+        <div class="impact-icon">💰</div>
+        <div class="impact-num">+20%</div>
+        <div class="impact-title">Ticket Médio</div>
+        <div class="impact-desc">Upsell inteligente aumenta venda de produtos da loja</div>
+      </div>
+      <div class="impact-card reveal" style="transition-delay:0.2s">
+        <div class="impact-icon">😊</div>
+        <div class="impact-num">+35%</div>
+        <div class="impact-title">Engajamento de Equipes</div>
+        <div class="impact-desc">Gamificação reduz turnover em 40%</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== DIFERENCIAIS ===== -->
+<section id="diferenciais" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Por Que Postos 360° é <span class="gradient-text">Único no Mercado</span></h2>
+    <p class="section-sub reveal">Comparamos com as soluções existentes. Os números falam por si só.</p>
+
+    <div class="comp-table-wrap reveal">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>ERPs Tradicionais</th>
+            <th>✨ Postos 360°</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Implementação</td><td>6–12 meses</td><td class="check">30–60 dias ✅</td></tr>
+          <tr><td>Custo Setup</td><td>R$ 5–15k</td><td class="check">R$ 1,5–5k ✅</td></tr>
+          <tr><td>Custo Mensal</td><td>R$ 800–2k</td><td class="check">R$ 497–1.997 ✅</td></tr>
+          <tr><td>IA Inteligente</td><td class="cross">❌ Não possui</td><td class="check">✅ Nativa</td></tr>
+          <tr><td>Gamificação</td><td class="cross">❌ Não possui</td><td class="check">✅ Colaboradores + Clientes</td></tr>
+          <tr><td>Mobile-first</td><td class="cross">❌ Desktop legado</td><td class="check">✅ Apps nativos</td></tr>
+          <tr><td>Suporte</td><td>Precário / lento</td><td class="check">✅ WhatsApp &lt;1h</td></tr>
+          <tr class="highlight-row"><td>ROI</td><td>12–24 meses</td><td class="check">3–6 meses ✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="comp-destaque reveal">
+      "Única solução 360° que integra diagnóstico + automação + gamificação em uma plataforma"
+    </div>
+  </div>
+</section>
+
+<!-- ===== MERCADO ===== -->
+<section id="mercado" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Uma Oportunidade de <span class="gradient-text">Bilhões</span> Esperando Por Nós</h2>
+    <p class="section-sub reveal">Mercado gigante, pouco digitalizado, pronto para disrupção.</p>
+
+    <div class="market-wrap">
+      <div class="reveal" style="text-align:center">
+        <div class="tam-visual">
+          <div class="tam-circle tam-1">
+            <div class="tam-label">TAM</div>
+            <div class="tam-val">R$650 bi/ano</div>
+            <div class="tam-sub">43.000 postos</div>
+          </div>
+          <div class="tam-circle tam-2">
+            <div class="tam-label">SAM</div>
+            <div class="tam-val">R$32 bi/ano</div>
+            <div class="tam-sub">Indep. (70%)</div>
+          </div>
+          <div class="tam-circle tam-3">
+            <div class="tam-label">SOM</div>
+            <div class="tam-val">R$100M</div>
+            <div class="tam-sub">5 anos</div>
+          </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(0,102,204,0.6)"></div>TAM — Total</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(0,204,102,0.6)"></div>SAM — Endereçável</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(255,102,0,0.7)"></div>SOM — Nossa Fatia</div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.2s">
+        <div style="margin-bottom:16px;font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Projeções 5 Anos</div>
+        <div class="proj-header">
+          <div>Ano</div><div>Postos</div><div>ARR</div><div>Valuation</div>
+        </div>
+        <div class="proj-row">
+          <div class="proj-ano">Ano 1</div>
+          <div class="proj-postos">10</div>
+          <div class="proj-arr">R$ 120k</div>
+          <div class="proj-val">R$ 1M</div>
+        </div>
+        <div class="proj-row">
+          <div class="proj-ano">Ano 2</div>
+          <div class="proj-postos">50</div>
+          <div class="proj-arr">R$ 600k</div>
+          <div class="proj-val">R$ 5M</div>
+        </div>
+        <div class="proj-row">
+          <div class="proj-ano">Ano 3</div>
+          <div class="proj-postos">150</div>
+          <div class="proj-arr">R$ 2,4M</div>
+          <div class="proj-val">R$ 15M</div>
+        </div>
+        <div class="proj-row">
+          <div class="proj-ano">Ano 4</div>
+          <div class="proj-postos">350</div>
+          <div class="proj-arr">R$ 7M</div>
+          <div class="proj-val">R$ 40M</div>
+        </div>
+        <div class="proj-row">
+          <div class="proj-ano">Ano 5</div>
+          <div class="proj-postos">500</div>
+          <div class="proj-arr">R$ 12M</div>
+          <div class="proj-val">R$ 60M+</div>
+        </div>
+        <div style="margin-top:20px;background:linear-gradient(135deg,rgba(0,102,204,0.08),rgba(0,204,102,0.05));border:1px solid rgba(0,204,102,0.15);border-radius:12px;padding:14px 18px;font-size:0.82rem;color:var(--muted)">
+          <strong style="color:var(--green)">Premissa:</strong> CAC R$2k · LTV 36 meses · Churn 3%/mês · Ticket médio R$997/mês
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROADMAP ===== -->
+<section id="roadmap" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Do Piloto à <span class="gradient-text">Escala Nacional</span></h2>
+    <p class="section-sub reveal">Estratégia clara, milestones definidos, execução focada.</p>
+
+    <div class="roadmap-grid">
+      <div class="rm-card reveal">
+        <div class="rm-phase" style="background:rgba(0,204,102,0.1);color:var(--green);border:1px solid rgba(0,204,102,0.2)">Fase 1 · 1-3 meses</div>
+        <div class="rm-card-title">🧪 Validação</div>
+        <ul class="rm-items">
+          <li>✅ <span>Cliente piloto (Jamilly — Salvador/BA)</span></li>
+          <li>✅ <span>Testes de campo e ajustes</span></li>
+          <li>✅ <span>Coleta de métricas de impacto</span></li>
+          <li>✅ <span>Refinamento de UX</span></li>
+        </ul>
+        <div class="rm-meta">Meta: Comprovar hipóteses</div>
+      </div>
+      <div class="rm-card reveal" style="transition-delay:0.1s">
+        <div class="rm-phase" style="background:rgba(0,102,204,0.1);color:var(--blue-l);border:1px solid rgba(0,102,204,0.2)">Fase 2 · 4-9 meses</div>
+        <div class="rm-card-title">💼 Vendas Diretas</div>
+        <ul class="rm-items">
+          <li>🎯 <span>10-20 clientes (Bahia)</span></li>
+          <li>🎯 <span>Processo comercial estruturado</span></li>
+          <li>🎯 <span>Cases de sucesso documentados</span></li>
+          <li>🎯 <span>Treinamento de equipe</span></li>
+        </ul>
+        <div class="rm-meta">Meta: R$ 600k ARR</div>
+      </div>
+      <div class="rm-card reveal" style="transition-delay:0.15s">
+        <div class="rm-phase" style="background:rgba(255,102,0,0.1);color:var(--orange);border:1px solid rgba(255,102,0,0.2)">Fase 3 · 10-18 meses</div>
+        <div class="rm-card-title">📈 Escala Regional</div>
+        <ul class="rm-items">
+          <li>🚀 <span>50-150 clientes (Nordeste)</span></li>
+          <li>🚀 <span>Parcerias com distribuidoras</span></li>
+          <li>🚀 <span>Automação do onboarding</span></li>
+          <li>🚀 <span>Time comercial estruturado</span></li>
+        </ul>
+        <div class="rm-meta">Meta: R$ 2,4M ARR</div>
+      </div>
+      <div class="rm-card reveal" style="transition-delay:0.2s">
+        <div class="rm-phase" style="background:rgba(255,215,0,0.1);color:#ffd700;border:1px solid rgba(255,215,0,0.2)">Fase 4 · 19-36 meses</div>
+        <div class="rm-card-title">🌎 Expansão Nacional</div>
+        <ul class="rm-items">
+          <li>🦄 <span>500+ clientes (Brasil)</span></li>
+          <li>🦄 <span>White label para grandes redes</span></li>
+          <li>🦄 <span>API aberta para ecossistema</span></li>
+          <li>🦄 <span>Expansão internacional (LATAM)</span></li>
+        </ul>
+        <div class="rm-meta">Meta: R$ 12M+ ARR</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INVESTIMENTO ===== -->
+<section id="investimento" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Como Vamos Usar o <span class="gradient-text">Investimento</span></h2>
+    <p class="section-sub reveal">Alocação estratégica para maximizar crescimento e impacto.</p>
+
+    <div class="inv-wrap">
+      <div class="reveal">
+        <div class="inv-amount">
+          <div class="inv-label">Rodada Buscada</div>
+          <div class="inv-val">R$ 180k – 300k</div>
+          <div class="inv-type">Seed Round · Runway 18 meses</div>
+        </div>
+        <svg viewBox="0 0 200 200" width="200" style="display:block;margin:0 auto 20px" xmlns="http://www.w3.org/2000/svg" aria-label="Gráfico de pizza de alocação de investimento">
+          <!-- Produto 40% - azul -->
+          <path d="M100,100 L100,10 A90,90 0 0,1 190,100 Z" fill="#0066CC"/>
+          <!-- Comercial 30% - verde -->
+          <path d="M100,100 L190,100 A90,90 0 0,1 100,190 Z" fill="#00CC66"/>
+          <!-- Operações 20% - laranja -->
+          <path d="M100,100 L100,190 A90,90 0 0,1 27,145 Z" fill="#FF6600"/>
+          <!-- Reserva 10% - cinza -->
+          <path d="M100,100 L27,145 A90,90 0 0,1 10,69 Z" fill="#4466aa"/>
+          <!-- Produto parte restante -->
+          <path d="M100,100 L10,69 A90,90 0 0,1 100,10 Z" fill="#1a88ff"/>
+          <circle cx="100" cy="100" r="45" fill="#0d0d1a"/>
+          <text x="100" y="96" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Poppins,sans-serif">Seed</text>
+          <text x="100" y="112" text-anchor="middle" fill="#8888aa" font-size="9" font-family="Poppins,sans-serif">R$300k</text>
+        </svg>
+        <div class="pie-legend">
+          <div class="pie-legend-item"><div class="pie-dot" style="background:#0066CC"></div><div class="pie-leg-label">Produto &amp; Infraestrutura</div><div class="pie-leg-pct">40%</div></div>
+          <div class="pie-legend-item"><div class="pie-dot" style="background:#00CC66"></div><div class="pie-leg-label">Comercial &amp; Marketing</div><div class="pie-leg-pct">30%</div></div>
+          <div class="pie-legend-item"><div class="pie-dot" style="background:#FF6600"></div><div class="pie-leg-label">Operações &amp; Time</div><div class="pie-leg-pct">20%</div></div>
+          <div class="pie-legend-item"><div class="pie-dot" style="background:#4466aa"></div><div class="pie-leg-label">Reserva de Caixa</div><div class="pie-leg-pct">10%</div></div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.2s">
+        <div style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:20px">Milestones</div>
+        <div class="milestones">
+          <div class="milestone-row">
+            <div class="milestone-dot">M3</div>
+            <div class="milestone-line">
+              <div class="milestone-mes">Mês 3</div>
+              <div class="milestone-desc">✅ MVP validado com métricas comprovadas</div>
+            </div>
+          </div>
+          <div class="milestone-row">
+            <div class="milestone-dot">M6</div>
+            <div class="milestone-line">
+              <div class="milestone-mes">Mês 6</div>
+              <div class="milestone-desc">✅ 10 clientes pagantes ativos</div>
+            </div>
+          </div>
+          <div class="milestone-row">
+            <div class="milestone-dot">M12</div>
+            <div class="milestone-line">
+              <div class="milestone-mes">Mês 12</div>
+              <div class="milestone-desc">✅ 50 clientes + break-even operacional</div>
+            </div>
+          </div>
+          <div class="milestone-row">
+            <div class="milestone-dot">M18</div>
+            <div class="milestone-line">
+              <div class="milestone-mes">Mês 18</div>
+              <div class="milestone-desc">✅ 150 clientes + preparação Série A</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:28px;background:linear-gradient(135deg,rgba(0,102,204,0.08),rgba(0,204,102,0.05));border:1px solid rgba(0,204,102,0.15);border-radius:12px;padding:18px;font-size:0.85rem;color:var(--muted)">
+          <strong style="color:#fff;display:block;margin-bottom:8px">Por que agora?</strong>
+          O mercado de postos vive um ponto de inflexão digital. Regulações como PIX obrigatório e pressão por eficiência criam a janela perfeita para entrada. Primeiro a consolidar vence.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIME ===== -->
+<section id="time" class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Quem Está <span class="gradient-text">Construindo</span> o Futuro dos Postos</h2>
+    <p class="section-sub reveal">Um time complementar com experiência em IA, operações e gestão de negócios.</p>
+
+    <div class="team-grid reveal">
+      <div class="team-card" style="grid-column: span 1">
+        <div class="team-avatar">👩‍💻</div>
+        <div>
+          <div class="team-name">Emily Susan da Silva</div>
+          <div class="team-role">Fundadora &amp; CEO</div>
+          <div class="team-bio">
+            Especialista em IA e Transformação Digital. Criadora da AIOX com 48 agentes de IA. Mentoria Alice Algayer e Thiago Finch. Case de sucesso: Academia Lendária.
+          </div>
+          <div class="team-links">
+            <a href="https://www.linkedin.com/in/rainhadamidia/" target="_blank" rel="noopener" class="team-link">LinkedIn</a>
+            <a href="mailto:rainhadamidia.ia@gmail.com" class="team-link">Email</a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">⛽</div>
+        <div>
+          <div class="team-name">Jamilly Pink</div>
+          <div class="team-role">Head de Implementação</div>
+          <div class="team-bio">
+            Cliente piloto validadora. Especialista em gestão de postos e operações. Fornece feedback real do campo para evolução do produto. Localização: Salvador — BA.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="parceiros-title reveal">Parceiros Estratégicos</div>
+    <div class="parceiros-grid reveal">
+      <div class="parceiro-card">
+        <div class="parceiro-icon">🤖</div>
+        <div class="parceiro-name">AIOX</div>
+        <div class="parceiro-role">Tecnologia de IA</div>
+      </div>
+      <div class="parceiro-card">
+        <div class="parceiro-icon">🏛️</div>
+        <div class="parceiro-name">EPN</div>
+        <div class="parceiro-role">Consultoria Jurídica · Dra. Karina</div>
+      </div>
+      <div class="parceiro-card">
+        <div class="parceiro-icon">🚀</div>
+        <div class="parceiro-name">Academia Lendária</div>
+        <div class="parceiro-role">Mentoria de Negócios</div>
+      </div>
+      <div class="parceiro-card">
+        <div class="parceiro-icon">💼</div>
+        <div class="parceiro-name">Outlier Hub</div>
+        <div class="parceiro-role">Aceleração</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section id="cta-final" class="section">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">
+        Vamos Transformar<br />
+        o Setor <span class="gradient-text">Juntos?</span>
+      </h2>
+      <p class="cta-sub">
+        Postos 360° está pronto para escalar. Com o apoio do Novatores, vamos acelerar a transformação digital de milhares de postos e gerar impacto econômico e social no Brasil.
+      </p>
+      <div class="cta-seals">
+        <span class="seal">🏆 Novatores 2026</span>
+        <span class="seal">✅ Protótipo Validado</span>
+        <span class="seal">🥈 Vice-campeã Desafio AIOX 2026</span>
+        <span class="seal">🚀 Case Outlier Hub — Thiago Finch</span>
+        <span class="seal">🌟 Case Academia Lendária</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">⛽ Postos 360°</div>
+    <div class="footer-contacts">
+      <a href="mailto:rainhadamidia.ia@gmail.com" class="footer-contact">📧 rainhadamidia.ia@gmail.com</a>
+      <a href="https://wa.me/5551981337913" target="_blank" rel="noopener" class="footer-contact">📱 (51) 98133-7913</a>
+      <a href="https://www.linkedin.com/in/rainhadamidia/" target="_blank" rel="noopener" class="footer-contact">💼 LinkedIn</a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">
+      © 2026 Postos 360°. Transformando postos em negócios digitais inteligentes.<br />
+      Projeto submetido ao Programa Novatores — UEFS<br />
+      Criado com 💙 e muito código por Emily Susan da Silva
+    </div>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // ── Mobile menu ──
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Tabs ──
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelector(`#tab-${tab}`).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // ── Radar Chart ──
+  const dims = [
+    { name: 'Vendas e Conversão',        score: 48 },
+    { name: 'Experiência do Cliente',    score: 62 },
+    { name: 'Operações e Processos',     score: 35 },
+    { name: 'Marketing e Posicionamento',score: 55 },
+    { name: 'Gestão de Equipes',         score: 40 },
+    { name: 'Financeiro e Lucratividade',score: 70 },
+    { name: 'Tecnologia e Infraestrutura',score: 30 },
+    { name: 'Conformidade e Segurança',  score: 75 },
+  ];
+
+  function scoreColor(s) {
+    if (s <= 40) return '#ff5555';
+    if (s <= 70) return '#ffc800';
+    return '#00CC66';
+  }
+
+  function drawRadar() {
+    const svg = document.getElementById('radarCanvas');
+    const cx = 220, cy = 220, r = 170, n = dims.length;
+    const angle = (i) => (Math.PI * 2 * i / n) - Math.PI / 2;
+    const pt = (i, frac) => ({
+      x: cx + r * frac * Math.cos(angle(i)),
+      y: cy + r * frac * Math.sin(angle(i))
+    });
+
+    let html = '<defs>';
+    html += '<linearGradient id="radarFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0066CC" stop-opacity="0.3"/><stop offset="100%" stop-color="#00CC66" stop-opacity="0.3"/></linearGradient>';
+    html += '<linearGradient id="radarStroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0066CC"/><stop offset="100%" stop-color="#00CC66"/></linearGradient>';
+    html += '</defs>';
+
+    // Grid circles
+    [0.25, 0.5, 0.75, 1].forEach(frac => {
+      let pts = dims.map((_,i) => `${pt(i,frac).x},${pt(i,frac).y}`).join(' ');
+      html += `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
+    });
+    // Axis lines
+    dims.forEach((_,i) => {
+      const p = pt(i, 1);
+      html += `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>`;
+    });
+    // Data polygon
+    const dataPts = dims.map((d,i) => { const p = pt(i, d.score/100); return `${p.x},${p.y}`; }).join(' ');
+    html += `<polygon points="${dataPts}" fill="url(#radarFill)" stroke="url(#radarStroke)" stroke-width="2.5" stroke-linejoin="round"/>`;
+    // Dots
+    dims.forEach((d,i) => {
+      const p = pt(i, d.score/100);
+      html += `<circle cx="${p.x}" cy="${p.y}" r="6" fill="${scoreColor(d.score)}" stroke="#0d0d1a" stroke-width="2"/>`;
+    });
+    // Labels
+    dims.forEach((d,i) => {
+      const p = pt(i, 1.18);
+      const words = d.name.split(' ');
+      const first = words.slice(0,2).join(' ');
+      const second = words.slice(2).join(' ');
+      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" fill="#8888aa" font-size="11" font-family="Poppins,sans-serif" font-weight="500">`;
+      html += `<tspan x="${p.x}" dy="0">${first}</tspan>`;
+      if (second) html += `<tspan x="${p.x}" dy="14">${second}</tspan>`;
+      html += `</text>`;
+    });
+
+    svg.innerHTML = html;
+  }
+
+  function buildDimList() {
+    const container = document.getElementById('radarDims');
+    container.innerHTML = dims.map((d,i) => {
+      const cls = d.score <= 40 ? 'score-red' : d.score <= 70 ? 'score-yellow' : 'score-green';
+      const barColor = d.score <= 40 ? '#ff5555' : d.score <= 70 ? '#ffc800' : '#00CC66';
+      return `<div class="radar-dim" onclick="highlightDim(${i})" aria-label="${d.name}: ${d.score} pontos">
+        <div class="radar-dim-score ${cls}">${d.score}</div>
+        <div class="radar-dim-info">
+          <div class="radar-dim-name">${d.name}</div>
+          <div class="radar-dim-bar-wrap"><div class="radar-dim-bar" style="width:${d.score}%;background:${barColor}"></div></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function highlightDim(i) {
+    document.querySelectorAll('.radar-dim').forEach((el,j) => {
+      el.classList.toggle('active', j === i);
+    });
+  }
+
+  drawRadar();
+  buildDimList();
+</script>
+</body>
+</html>
